@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte des Circulations et Contributions d'André Basset</title>
+    <!-- Leaflet CSS for map visualization -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        /* Map container styling */
+        #map {
+            height: 600px;
+            width: 100%;
+            border: 3px solid rgba(0, 0, 100, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0, 0, 100, 0.7);
+            background: radial-gradient(circle, rgba(18, 18, 18, 0.8), rgba(0, 0, 0, 0.5));
+        }
+
+        /* Legends for the map */
+        .legend, .legend-left, .legend-circulations {
+            position: absolute;
+            background: rgba(0, 0, 100, 0.8);
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 100, 0.6);
+            font-size: 14px;
+            line-height: 1.5;
+            z-index: 999;
+        }
+
+        .legend {
+            bottom: 40px;
+            right: 20px;
+        }
+
+        .legend-left {
+            top: 120px;
+            left: 10px;
+        }
+
+        .legend-circulations {
+            bottom: 40px;
+            left: 10px;
+        }
+
+        .legend i, .legend-circulations i {
+            display: inline-block;
+            width: 20px;
+            height: 10px;
+            margin-right: 5px;
+        }
+
+        /* Colors for the legend (consistent with map) */
+        .blue { background: blue; }
+        .yellow { background: yellow; }
+        .green { background: green; }
+        .red { background: red; }
+        .purple { background: purple; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center; color: navy;">Carte des Circulations et Contributions d'André Basset</h1>
+    <p style="text-align:center;">Cette carte montre les régions où André Basset a mené ses recherches linguistiques et anthropologiques sur les dialectes berbères.</p>
+
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <!-- Main legend for research themes -->
+    <div class="legend">
+        <h4>Légende</h4>
+        <i class="blue"></i> Recherches linguistiques berbères<br>
+        <i class="yellow"></i> Documentation des dialectes et atlas<br>
+        <i class="green"></i> Études anthropologiques et culturelles<br>
+        <i class="red"></i> Méthodes géolinguistiques<br>
+        <i class="purple"></i> Documentation en régions berbères (Aurès, Kabylie, Sud Maroc)
+    </div>
+
+    <!-- Legend for specific circulations -->
+    <div class="legend-left">
+        <h4>Contributions Clés</h4>
+        <i class="blue"></i> Kabylie : Documentation de dialectes berbères<br>
+        <i class="yellow"></i> Aurès : Études morphologiques et textes Chleuh<br>
+        <i class="green"></i> Maroc Sud : Documentation ethnographique<br>
+        <i class="red"></i> Travaux de terrain : Atlas linguistique<br>
+        <i class="purple"></i> Aurès : Analyse des migrations saisonnières
+    </div>
+
+    <!-- Leaflet JS for the map -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([31.7917, -7.0926], 5); // North Africa
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+        }).addTo(map);
+
+        // Define custom markers based on contribution type
+        function getColor(circulation) {
+            switch (circulation) {
+                case 'Recherches linguistiques': return 'blue'; 
+                case 'Documentation des dialectes': return 'yellow';
+                case 'Études anthropologiques': return 'green'; 
+                case 'Méthodes géolinguistiques': return 'red'; 
+                case 'Documentation en régions berbères': return 'purple'; 
+                default: return 'black';
+            }
+        }
+
+        // Function to create markers with popups
+        function createCustomMarker(lat, lng, circulation, description) {
+            return L.circleMarker([lat, lng], {
+                color: getColor(circulation),
+                radius: 12,
+                fillOpacity: 0.8
+            }).addTo(map).bindPopup(`<b>${circulation}</b><br>${description}`);
+        }
+
+        // Add markers for André Basset's circulations
+        createCustomMarker(36.4667, 6.2836, 'Recherches linguistiques', 'Kabylie : Documentation et étude des dialectes berbères.'); // Kabylie
+        createCustomMarker(35.297, 6.3281, 'Documentation des dialectes', 'Aurès : Études sur les dialectes Chleuh et documents culturels.'); // Aurès
+        createCustomMarker(31.6295, -7.9811, 'Documentation en régions berbères', 'Sud du Maroc : Documentation ethnographique des traditions berbères.'); // South Morocco
+        createCustomMarker(35.216, 6.55, 'Méthodes géolinguistiques', 'Atlas linguistique des parlers berbères dans les Aurès.'); // Aurès
+        createCustomMarker(33.9716, -6.8498, 'Études anthropologiques', 'Rabat : Études anthropologiques sur la migration saisonnière et pratiques culturelles.'); // Rabat
+    </script>
+</body>
+</html>
